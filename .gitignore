@@ -1,0 +1,56 @@
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+
+# Compiled class files
+*.class
+
+# Build output directory
+out/
+# =====================
+# Java and IntelliJ .gitignore
+# =====================
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# IDE-specific junk
+.idea/
+*.iml
+.vscode/
+*.iws
+*.ipr
+
+# Build output directories
+/out/
+/build/
+/target/
+/bin/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary or cache files
+*.tmp
+*.swp
+*.bak
+*.cache
+
+# Gradle files
+.gradle/
+build/
+
+# Maven files
+.mvn/
+!mvn/wrapper/maven-wrapper.jar
+
+# JARs (optional: ignore if you don’t want to track them)
+*.jar
+
+# Ignore backups
+*.old
