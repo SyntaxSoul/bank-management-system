@@ -1,13 +1,14 @@
 import entity.AccountType;
 import entity.Customer;
 import service.CustomerServices;
+
 import java.util.Scanner;
 
 public class BankManagementSystem {
+    private static Scanner scanner = new Scanner(System.in);
+    private static CustomerServices customerServices = new CustomerServices();
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        CustomerServices customerServices = new CustomerServices();
 
         while (true) {
             System.out.println("1. Login: ");
@@ -63,7 +64,7 @@ public class BankManagementSystem {
                             System.out.println("Invalid account type entered! Please chose valid account type");
                         }
                     }
-                    Customer newCustomer = new CustomerServices().createCustomer(name, dob, mobileNumber, email, address, password, accountType);
+                    Customer newCustomer = new CustomerServices().createCustomer(name, dob, mobileNumber, address, email, password, accountType);
                     System.out.println("Account Created your customer ID is: " + newCustomer.getCustomerId());
                     System.out.println("Please note it for future use");
                     System.out.println("Click ENTER to Login");

@@ -1,4 +1,4 @@
-package entity;
+package utility;
 
 public class IdProvider {
     static Long customerId = 100000L;
