@@ -2,24 +2,15 @@ package repository;
 
 import entity.Account;
 import entity.Customer;
+import entity.Transaction;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.List;
 
-public class AccountRepository {
-    private static Map<Customer, Account> accountByCustomer = new HashMap<>();
-    private static Map<String, Account> accountByAccountNumber = new HashMap<>();
-
-    public void saveAccount(Customer customer, Account account) {
-        AccountRepository.accountByCustomer.put(customer, account);
-        AccountRepository.accountByAccountNumber.put(account.getAccountNumber(), account);
-    }
-
-    public Account getAccountByCustomer(Customer customer) {
-        return accountByCustomer.get(customer);
-    }
-
-    public Account getAccountByAccountNumber(String accountNumber) {
-        return accountByAccountNumber.get(accountNumber);
-    }
+public interface AccountRepository {
+    void saveAccount(Account account);
+    void updateAccount(Account account);
+    Account getAccountByCustomer(Customer customer);
+    Account getAccountByAccountNumber(String accountNumber);
+    void addTransaction(Account account, List<Transaction> transactions);
 }

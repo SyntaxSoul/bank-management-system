@@ -1,67 +1,97 @@
 package entity;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import utility.IdProvider;
+
+import java.time.LocalDateTime;
 
 public class Transaction {
-    private String id;
-    private String date;
-    private String time;
-    private int amount;
-    private String comment;
-    TransactionType transactionType;
+    //Modified
+    private final  String id;
+    private final LocalDateTime date;
+    private final TransactionType transactionType;
+    private final double amount;
+    private final double balanceAfter;
+    private final String comment;
+
+
 
     public enum TransactionType {
-        Cr,
-        Dr
+        //Modified
+        CREDIT,
+        DEBIT
     }
 
-    // String comment;
+    // The enum can be created inside a class like nested class
 
-    public Transaction(int amount, TransactionType transactionType) {
+    //Modified
+    public Transaction(double amount, TransactionType transactionType,double balanceAfter) {
         this.id = IdProvider.generateTransactionId();
+        this.date=LocalDateTime.now();
         this.amount = amount;
+        this.balanceAfter=balanceAfter;
         this.transactionType = transactionType;
-        setDate();
-        setTime();
+        this.comment="No comment added";
     }
 
-    public Transaction(int amount, TransactionType transactionType, String comment) {
+    //Modified
+    public Transaction(double amount, TransactionType transactionType, double balanceAfter, String comment) {
         this.id = IdProvider.generateTransactionId();
+        this.date=LocalDateTime.now();
         this.amount = amount;
+        this.balanceAfter=balanceAfter;
         this.transactionType = transactionType;
-        setDate();
-        setTime();
         this.comment = comment;
     }
 
-    public String getDate() {
+    //Modified
+    public Transaction(String transactionId,LocalDateTime date,TransactionType type, double amount, double balanceAfter, String comment){
+        this.id=transactionId;
+        this.date=date;
+        this.transactionType=type;
+        this.amount=amount;
+        this.balanceAfter=balanceAfter;
+        this.comment=comment;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public TransactionType getTransactionType() {
+        return transactionType;
     }
 
-    public void setDate() {
-        this.date = LocalDate.now(ZoneId.of("Asia/Kolkata")).toString();
+    public double getAmount() {
+        return amount;
     }
 
-    public String getTime() {
-        return time;
+    public double getBalanceAfter() {
+        return balanceAfter;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public String getComment() {
+        return comment;
     }
 
-    public void setTime() {
-        this.time = LocalTime.now(ZoneId.of("Asia/Kolkata")).toString();
-    }
-
+    //Modified
     @Override
     public String toString() {
-        return "{\n" + this.id + "\n" + this.date + "\n" + this.time + "\n" + this.amount + "\n" + this.transactionType + "\n" + this.comment + "\n}";
+        return "{\n" + this.id + "\n" + this.date + "\n" + this.amount + "\n" + this.transactionType + "\n" + this.comment + "\n}";
     }
 }
+
+
+//Changes made at "Modified" comment
+//Modify -> made all class var as final
+//Modify -> added date,comment and balanceAfter to existing constructor
+//Add -> Create new constructor for file
+//Modify -> int amount - double amount
+// Remove -> String date,time - Add LocalDateTime date
+//Remove -> setter and getter for date and time
+//Add -> double balanceAfter;
+//Modify -> enum TransactionType Cr,Dr - CREDIT , DEBIT
+//Modify -> toString() return(date,time) - return(date)
