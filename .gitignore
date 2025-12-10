@@ -54,3 +54,7 @@ build/
 
 # Ignore backups
 *.old
+
+#Data Folder
+data/
+
