@@ -7,12 +7,12 @@ import java.io.*;
 public class CustomerFileRepository implements CustomerRepository {
     //Removed absolute path as it makes code machine dependent.
     private final String customerFilePath = "data\\customer.csv";
-    File customersFile = new File( customerFilePath);
+    File customersFile = new File(customerFilePath);
 
     public void writeCustomer(Customer customer) {
         customersFile.getParentFile().mkdirs();
         boolean newFile = customersFile.exists() || customersFile.length() == 0;
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(customersFile,true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(customersFile, true))) {
             if (newFile) {
                 bw.write("customer_id,name,mobile_number,address,email,dob,password");
                 bw.newLine();

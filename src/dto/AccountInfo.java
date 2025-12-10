@@ -20,7 +20,7 @@ public class AccountInfo {
     private final List<Transaction> transaction;
 
     public AccountInfo(String customerId, String name, String mobileNumber, String address, String email, String dob,
-                       String accountNumber, Double balance, LocalDateTime createdOn, AccountType accountType,List<Transaction> transaction) {
+                       String accountNumber, Double balance, LocalDateTime createdOn, AccountType accountType, List<Transaction> transaction) {
         this.customerId = customerId;
         this.name = name;
         this.mobileNumber = mobileNumber;
@@ -31,7 +31,7 @@ public class AccountInfo {
         this.balance = balance;
         this.createdOn = createdOn;
         this.accountType = accountType;
-        this.transaction=transaction;
+        this.transaction = transaction;
     }
 
     public String getCustomerId() {
@@ -75,7 +75,7 @@ public class AccountInfo {
     }
 
     public List<Transaction> getTransaction() {
-        
+
         return transaction;
     }
 }

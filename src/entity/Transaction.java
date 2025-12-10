@@ -6,13 +6,12 @@ import java.time.LocalDateTime;
 
 public class Transaction {
     //Modified
-    private final  String id;
+    private final String id;
     private final LocalDateTime date;
     private final TransactionType transactionType;
     private final double amount;
     private final double balanceAfter;
     private final String comment;
-
 
 
     public enum TransactionType {
@@ -24,33 +23,33 @@ public class Transaction {
     // The enum can be created inside a class like nested class
 
     //Modified
-    public Transaction(double amount, TransactionType transactionType,double balanceAfter) {
+    public Transaction(double amount, TransactionType transactionType, double balanceAfter) {
         this.id = IdProvider.generateTransactionId();
-        this.date=LocalDateTime.now();
+        this.date = LocalDateTime.now();
         this.amount = amount;
-        this.balanceAfter=balanceAfter;
+        this.balanceAfter = balanceAfter;
         this.transactionType = transactionType;
-        this.comment="No comment added";
+        this.comment = "No comment added";
     }
 
     //Modified
     public Transaction(double amount, TransactionType transactionType, double balanceAfter, String comment) {
         this.id = IdProvider.generateTransactionId();
-        this.date=LocalDateTime.now();
+        this.date = LocalDateTime.now();
         this.amount = amount;
-        this.balanceAfter=balanceAfter;
+        this.balanceAfter = balanceAfter;
         this.transactionType = transactionType;
         this.comment = comment;
     }
 
     //Modified
-    public Transaction(String transactionId,LocalDateTime date,TransactionType type, double amount, double balanceAfter, String comment){
-        this.id=transactionId;
-        this.date=date;
-        this.transactionType=type;
-        this.amount=amount;
-        this.balanceAfter=balanceAfter;
-        this.comment=comment;
+    public Transaction(String transactionId, LocalDateTime date, TransactionType type, double amount, double balanceAfter, String comment) {
+        this.id = transactionId;
+        this.date = date;
+        this.transactionType = type;
+        this.amount = amount;
+        this.balanceAfter = balanceAfter;
+        this.comment = comment;
     }
 
     public String getId() {

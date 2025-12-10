@@ -20,7 +20,7 @@ public class AccountInMemoryRepository implements AccountRepository {
     }
 
     @Override
-    public void updateAccount(Account account){
+    public void updateAccount(Account account) {
     }
 
     @Override
@@ -34,8 +34,8 @@ public class AccountInMemoryRepository implements AccountRepository {
     }
 
     @Override
-    public void addTransaction(Account account, List<Transaction> transactions){
-        for (Transaction transaction:transactions) {
+    public void addTransaction(Account account, List<Transaction> transactions) {
+        for (Transaction transaction : transactions) {
             account.addTransaction(transaction);
         }
     }

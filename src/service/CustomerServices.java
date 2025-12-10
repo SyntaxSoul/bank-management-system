@@ -1,11 +1,7 @@
 package service;
 
-import entity.Account;
 import entity.AccountType;
 import entity.Customer;
-import entity.Transaction;
-import repository.AccountFileRepository;
-import repository.AccountRepository;
 import repository.CustomerFileRepository;
 import repository.CustomerRepository;
 import utility.IdProvider;
@@ -16,7 +12,7 @@ public class CustomerServices {
 
     Scanner scanner = new Scanner(System.in);
     AccountServices accountServices = new AccountServices();
-    CustomerRepository customerRepository=new CustomerFileRepository();
+    CustomerRepository customerRepository = new CustomerFileRepository();
 
     public Customer createCustomer(String name, String dob, String mobileNumber, String address, String email, String password, AccountType accountType) {
         String customerId = IdProvider.generateCustomerId();
@@ -27,7 +23,7 @@ public class CustomerServices {
     }
 
     public boolean loginAccount(String customerId, String password) {
-        Customer customer =  customerRepository.getCustomerByCustomerId(customerId);
+        Customer customer = customerRepository.getCustomerByCustomerId(customerId);
         return customer != null && customer.getPassword().equals(password);
     }
 }

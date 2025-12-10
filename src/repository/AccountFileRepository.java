@@ -36,7 +36,7 @@ public class AccountFileRepository implements AccountRepository {
                 AccountType accountType = AccountType.valueOf(accountSplit[2]);
                 double balance = Double.parseDouble(accountSplit[3]);
                 LocalDateTime createdOn = LocalDateTime.parse(accountSplit[4]);
-                transactions = readTransaction( transactionFilePath + accountNumber + ".csv");
+                transactions = readTransaction(transactionFilePath + accountNumber + ".csv");
 
                 if (accountType.equals(AccountType.SAVINGS)) {
                     accountArrayList.add(new SavingsAccount(customerId, accountNumber, balance, createdOn, transactions));
@@ -59,7 +59,7 @@ public class AccountFileRepository implements AccountRepository {
         accountFile.getParentFile().mkdirs();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(accountFile))) {
             bw.write("customer_id,account_number,account_type,balance,created_date");
-            for (Account account:accounts){
+            for (Account account : accounts) {
                 bw.newLine();
                 bw.write(account.getCustomerId() + "," + account.getAccountNumber() + "," + account.getAccountType() + "," + account.getBalance() + "," + account.getCreatedOn());
             }
@@ -87,7 +87,7 @@ public class AccountFileRepository implements AccountRepository {
 
     private Account findAccountByAccountNumber(String accountNumber) {
         List<Account> accountsArrayList = readAllAccounts();
-        if (accountsArrayList!=null){
+        if (accountsArrayList != null) {
             for (Account account : accountsArrayList) {
                 if (accountNumber.equals(account.getAccountNumber())) {
                     return account;
@@ -99,7 +99,7 @@ public class AccountFileRepository implements AccountRepository {
 
     private Account findAccountByCustomerId(String customerId) {
         List<Account> accountsArrayList = readAllAccounts();
-        if (accountsArrayList!=null){
+        if (accountsArrayList != null) {
             for (Account account : accountsArrayList) {
                 if (customerId.equals(account.getCustomerId())) {
                     return account;
@@ -166,10 +166,10 @@ public class AccountFileRepository implements AccountRepository {
     }
 
     @Override
-    public void updateAccount(Account updateAccount){
-        List<Account> accountArrayList=readAllAccounts();
-        for (Account account:accountArrayList){
-            if (account.getAccountNumber().equals(updateAccount.getAccountNumber())){
+    public void updateAccount(Account updateAccount) {
+        List<Account> accountArrayList = readAllAccounts();
+        for (Account account : accountArrayList) {
+            if (account.getAccountNumber().equals(updateAccount.getAccountNumber())) {
                 accountArrayList.remove(account);
                 accountArrayList.add(updateAccount);
                 break;
@@ -191,7 +191,7 @@ public class AccountFileRepository implements AccountRepository {
     @Override
     public void addTransaction(Account account, List<Transaction> transactions) {
         String transactionFile = transactionFilePath + account.getAccountNumber() + ".csv";
-        for (Transaction transaction: transactions){
+        for (Transaction transaction : transactions) {
             account.addTransaction(transaction);
             writeTransaction(transactionFile, transaction);
         }

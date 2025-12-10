@@ -1,5 +1,4 @@
 import dto.AccountInfo;
-import entity.Account;
 import entity.AccountType;
 import entity.Customer;
 import entity.Transaction;
@@ -105,7 +104,7 @@ public class BankManagementSystem {
             System.out.println("5. Fund Transfer ");
             System.out.println("6. Transaction History");
             System.out.println("7. Logout");
-            AccountInfo accountInfo=accountServices.getAccountInfo(customerId);
+            AccountInfo accountInfo = accountServices.getAccountInfo(customerId);
             int choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
@@ -136,7 +135,7 @@ public class BankManagementSystem {
         }
     }
 
-    public  void accountDetails(AccountInfo accountInfo) {
+    public void accountDetails(AccountInfo accountInfo) {
         System.out.println("Account Details");
         System.out.println("Account Type: " + accountInfo.getAccountType());
         System.out.println("Account Number: " + accountInfo.getAccountNumber());
@@ -150,24 +149,22 @@ public class BankManagementSystem {
         scanner.nextLine();
     }
 
-    public  void checkBalance(AccountInfo accountInfo) {
+    public void checkBalance(AccountInfo accountInfo) {
         System.out.println("Balance: " + accountInfo.getBalance());
         System.out.println("Click ENTER to go back to Menu");
         scanner.nextLine();
     }
 
-    public  void deposit(AccountInfo accountInfo) {
+    public void deposit(AccountInfo accountInfo) {
         System.out.println("Enter amount: ");
         int amount = scanner.nextInt();
-        try{
-            if(accountServices.deposit(accountInfo, amount)){
+        try {
+            if (accountServices.deposit(accountInfo, amount)) {
                 System.out.println("Deposit successful.");
-            }
-            else {
+            } else {
                 System.out.println("Deposit failed!");
             }
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("Invalid amount entered");
         }
 
@@ -175,22 +172,19 @@ public class BankManagementSystem {
         scanner.nextLine();
     }
 
-    public  void withdraw(AccountInfo accountInfo) {
+    public void withdraw(AccountInfo accountInfo) {
         System.out.println("Enter amount: ");
         int amount = scanner.nextInt();
         scanner.nextLine();
-        try{
-            if(accountServices.withdraw(accountInfo, amount)) {
+        try {
+            if (accountServices.withdraw(accountInfo, amount)) {
                 System.out.println("Withdrawal successful.");
-            }
-            else {
+            } else {
                 System.out.println("Withdrawal Failed!");
             }
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("Invalid amount entered");
-        }
-        catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             System.out.println("Insufficient Balance");
         }
         System.out.println("Click ENTER to go back to Menu");
@@ -209,17 +203,14 @@ public class BankManagementSystem {
             int amount = scanner.nextInt();
             scanner.nextLine();
             try {
-                if(accountServices.fundTransfer(accountInfo, toAccountNumber, amount)) {
+                if (accountServices.fundTransfer(accountInfo, toAccountNumber, amount)) {
                     System.out.println("Fund transfer successful");
-                }
-                else {
+                } else {
                     System.out.println("Fund transfer failed");
                 }
-            }
-            catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println("Invalid amount entered");
-            }
-            catch (IllegalStateException e){
+            } catch (IllegalStateException e) {
                 System.out.println("Insufficient Balance");
             }
 
