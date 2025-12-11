@@ -1,77 +1,83 @@
 package service;
 
+import dto.AccountInfo;
 import entity.*;
+import repository.AccountFileRepository;
 import repository.AccountRepository;
+import repository.CustomerFileRepository;
+import repository.CustomerRepository;
+import utility.IdProvider;
+
+import java.util.List;
 
 public class AccountServices {
-    AccountRepository accountRepository = new AccountRepository();
-    Account account = new Account();
+    //AccountRepository accountRepository = new AccountInMemoryRepository();
+    AccountRepository accountRepository = new AccountFileRepository();
+    CustomerRepository customerRepository = new CustomerFileRepository();
 
+    //Modified
     public void createAccount(Customer newCustomer, AccountType accountType) {
-        account.setAccountType(accountType);
-        account.setBalance(0.0f);
-        account.setAccountNumber(IdProvider.generateAccountNumber());
-        accountRepository.saveAccount(newCustomer, account);
-    }
-
-    public Float balance(Account account) {
-        return account.getBalance();
-    }
-
-    public void deposit(Account account, int amount) {
-        int charges = calculateCharges(amount, account.getAccountType());
-        Transaction trDeposit = new Transaction(amount, Transaction.TransactionType.Cr);
-        account.addTransaction(trDeposit);
-        Transaction trCharges = new Transaction(charges, Transaction.TransactionType.Dr, "Transaction Charges");
-        account.addTransaction(trCharges);
-        account.setBalance(account.getBalance() + (amount - charges));
-
-    }
-
-    public boolean withdraw(Account account, int amount) {
-        float balance = account.getBalance();
-        if (amount <= balance) {
-            int charges = calculateCharges(amount, account.getAccountType());
-            Transaction trWithdraw = new Transaction(amount, Transaction.TransactionType.Dr);
-            account.addTransaction(trWithdraw);
-            Transaction trCharges = new Transaction(charges, Transaction.TransactionType.Dr, "Transaction Charges");
-            account.addTransaction(trCharges);
-            account.setBalance(balance - (amount + charges));
-            return true;
-        }
-        return false;
-    }
-
-    public boolean transfer(Account debitAccount, Account creditAccount, int amount) {
-        float balance = debitAccount.getBalance();
-        if (amount <= balance) {
-            {
-                int charges = calculateCharges(amount, debitAccount.getAccountType());
-                Transaction trTransfer = new Transaction(amount, Transaction.TransactionType.Dr, "To A/C: " + creditAccount.getAccountNumber());
-                debitAccount.addTransaction(trTransfer);
-                Transaction trCharges = new Transaction(charges, Transaction.TransactionType.Dr, "Transaction Charges");
-                debitAccount.addTransaction(trCharges);
-                debitAccount.setBalance(debitAccount.getBalance() - (amount + charges));
-            }
-            {
-                Transaction trTransfer = new Transaction(amount, Transaction.TransactionType.Cr, "From A/C: " + debitAccount.getAccountNumber());
-                creditAccount.addTransaction(trTransfer);
-                creditAccount.setBalance(creditAccount.getBalance() + amount);
-            }
-            return true;
-        }
-        return false;
-
-    }
-
-    public int calculateCharges(int amount, AccountType accountType) {
-        int charges = 0;
         if (accountType.equals(AccountType.SAVINGS)) {
-            charges = amount * 1 / 100;
+            Account account = new SavingsAccount(newCustomer.getCustomerId(), IdProvider.generateAccountNumber(), 0.0);
+            accountRepository.saveAccount(account);
         } else if (accountType.equals(AccountType.CURRENT)) {
-            charges = amount * 2 / 100;
+            Account account = new CurrentAccount(newCustomer.getCustomerId(), IdProvider.generateAccountNumber(), 0.0);
+            accountRepository.saveAccount(account);
+        } else {
+            throw new IllegalArgumentException("Unknown account type: " + accountType);
         }
-        return charges;
+    }
+
+    //Modified
+    public boolean deposit(AccountInfo accountInfo, double amount) {
+        Account account = accountRepository.getAccountByAccountNumber(accountInfo.getAccountNumber());
+        List<Transaction> transactions = account.deposit(amount);
+        accountRepository.updateAccount(account);
+        accountRepository.addTransaction(account, transactions);
+
+        return true;
+    }
+
+    //Modified
+    public boolean withdraw(AccountInfo accountInfo, double amount) {
+        Account account = accountRepository.getAccountByAccountNumber(accountInfo.getAccountNumber());
+        List<Transaction> transactions = account.withdraw(amount);
+        accountRepository.updateAccount(account);
+        accountRepository.addTransaction(account, transactions);
+        return true;
+    }
+
+    //Modified
+    public boolean fundTransfer(AccountInfo fromAccount, String toAccount, int amount) {
+        Account debitAccount = accountRepository.getAccountByAccountNumber(fromAccount.getAccountNumber());
+        Account creditAccount = accountRepository.getAccountByAccountNumber(toAccount);
+        List<Transaction> outTransactions = debitAccount.transferOut(amount);
+        accountRepository.updateAccount(debitAccount);
+        accountRepository.addTransaction(debitAccount, outTransactions);
+        List<Transaction> inTransactions = creditAccount.transferIn(amount);
+        accountRepository.updateAccount(creditAccount);
+        accountRepository.addTransaction(creditAccount, inTransactions);
+        return true;
+    }
+
+    public List<Transaction> getTransaction(AccountInfo accountInfo) {
+        return accountInfo.getTransaction();
+    }
+
+
+    public AccountInfo getAccountInfo(String customerID) {
+        Customer customer = customerRepository.getCustomerByCustomerId(customerID);
+        Account account = accountRepository.getAccountByCustomer(customer);
+
+        return new AccountInfo(customer.getCustomerId(),
+                customer.getName(), customer.getMobileNumber(),
+                customer.getAddress(), customer.getEmail(), customer.getDob(),
+                account.getAccountNumber(), account.getBalance(), account.getCreatedOn()
+                , account.getAccountType(), account.getTransaction());
     }
 
 }
+
+//Changes made at "Modified" comment
+//Modify -> createAccount() - Made use of Account constructor and removed assigning values outside the class
+//Modify -> account. replaced - accountRepository.

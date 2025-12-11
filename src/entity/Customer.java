@@ -1,7 +1,7 @@
 package entity;
 
 public class Customer {
-    private String customerId;
+    private final String customerId;
     private String name;
     private String mobileNumber;
     private String address;
@@ -22,10 +22,6 @@ public class Customer {
 
     public String getCustomerId() {
         return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
     }
 
     public String getName() {
@@ -70,9 +66,5 @@ public class Customer {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
